@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@100..700&display=swap');
-      </style>
+    </style>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            background: url('pexels-phantomant-1222561.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #333;
             margin: 0;
             padding: 0;
@@ -26,11 +27,10 @@
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #007BFF;
+            color: #fff;
             animation: fadeIn 1s ease-in-out;
         }
 
-        /* Container for user input */
         #user {
             display: flex;
             align-items: center;
@@ -70,19 +70,35 @@
             transform: scale(1.05);
         }
 
-        /* Weather data display */
-        #Location, #weatherReport {
+        #data {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #Location, #weatherReport, #temperature, #humidity, #wind, #pressure {
             font-size: 1em;
             margin: 10px 0;
-            color: #333;
+            color: #fff;
             font-family: "M PLUS 1 Code", monospace;
             font-optical-sizing: auto;
             font-weight: bold;
             font-style: normal;
-            animation: fadeIn 1s ease-in-out;
         }
 
-        /* Animations */
+        #image {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -106,15 +122,20 @@
 </head>
 <body>
     <h1>Weather App</h1>
-    <p>Enter a location to get its weather details</p>
+    <p style="color: #627237; font-weight: bold;">Enter a location to get its weather details</p>
     <div id="user">
-        <input type="text" id="quaryField" name="quaryField">
+        <input type="text" id="quaryField" name="quaryField" placeholder="Start Typing">
         <button id="Search">Search</button>
     </div>
 
     <div id="data">
         <p id="Location"></p>
         <p id="weatherReport"></p>
+        <p id="temperature"></p>
+        <p id="humidity"></p>
+        <p id="wind"></p>
+        <p id="pressure"></p>
+        <img src="https://openweathermap.org/img/wn/03d@2x.png" id="image">
     </div>
     <script src="app.js"></script>
 </body>

@@ -1,36 +1,48 @@
+const URL = "https://api.openweathermap.org/data/2.5/weather"
+        const key = "eb95df91b8d801839feb9cd47b87318c"
+        const btn = document.querySelector('#Search')
+        const qField = document.querySelector('#quaryField')
+        const LocationData = document.querySelector('#Location')
+        const weatherReport = document.querySelector('#weatherReport')
+        const temperature = document.querySelector('#temperature')
+        const humidity = document.querySelector('#humidity')
+        const wind = document.querySelector('#wind')
+        const pressure = document.querySelector('#pressure')
+        const image = document.querySelector('#image')
 
-const URL = "https://api.weatherapi.com/v1/current.json"
-const key = "dca1708ada7745d483e15551242607"
-const btn = document.querySelector('#Search')
-const qField = document.querySelector('#quaryField')
-const LocationData = document.querySelector('#Location')
-const weatherReport = document.querySelector('#weatherReport')
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+        async function getWeather(q) {
+            let Responce = await fetch(`${URL}?appid=${key}&q=${q}`)
+            let Data = await Responce.json()
 
-async function getWeather(q) {
-    let Responce = await fetch(`${URL}?key=${key}&q=${q}`)
-    let Data = await Responce.json()
+            if(qField.value == '' || qField.value == " ")  {
+                weatherReport.innerText = "";
+                LocationData.innerText = "Type Something"
+            }
+            else if (Data) {
+                let weather = `Weather feels : ${Data.weather[0].description}`;
+                let Temp = `Temperature: ${(Data.main.temp - 273.15).toFixed(2)} °C`
+                let Humidity = `Humidity: ${Data.main.humidity}%`
+                let Wind = `Wind Speed: ${Data.wind.speed} m/s`
+                let Pressure = `Pressure: ${Data.main.pressure} hPa`
+                let Location = `Country: ${Data.sys.country} \n Place: ${Data.name}`
+                weatherReport.innerText = weather;
+                temperature.innerText = Temp;
+                humidity.innerText = Humidity;
+                wind.innerText = Wind;
+                pressure.innerText = Pressure;
+                LocationData.innerText = Location;
+                image.src = `https://openweathermap.org/img/wn/${Data.weather[0].icon}@2x.png`
 
-    if(qField.value == '' || qField.value == " ")  {
-        weatherReport.innerText = "";
-        LocationData.innerText = "Type Something"
-    }
-    else if (Data['current']) {
-        let shortCut = Data['current']['condition']['text'];
-        let Weather = `Weather: ${shortCut}`;
-        let Temp = `\n Temperature: ${Data['current']['temp_c']} C and ${Data['current']['temp_f']} F`
-        let Location = `Name: ${Data['location']['name']} \n Region: ${Data['location']['region']} \n Country: ${Data['location']['country']} \n Local Time: ${Data['location']['localtime']}`
-        weatherReport.innerText = Weather + Temp;
-        LocationData.innerText = Location;
-    }  else if (Data['error']) {
-            weatherReport.innerText = "";
-            LocationData.innerText = "Location Not Found, Try searching Another"
-}
-}
+            }  else if (Data.message == "city not found") {
+                    weatherReport.innerText = "";
+                    LocationData.innerText = "Location Not Found, Try searching Another"
+            }
+        }
 
-btn.addEventListener("click", async () => {
-    return await getWeather(qField.value) 
-    })
+        btn.addEventListener("click", async () => {
+            return await getWeather(qField.value) 
+        })
